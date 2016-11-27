@@ -84,7 +84,7 @@ pandocToFB2 :: PandocMonad m
             -> Pandoc
             -> FBM m String
 pandocToFB2 opts (Pandoc meta blocks) = do
-     modify (\s -> s { writerOptions = opts { writerStandalone = True } })
+     modify (\s -> s { writerOptions = opts { writerTemplate = Just "" } })
      desc <- description meta
      fp <- frontpage meta
      secs <- renderSections 1 blocks

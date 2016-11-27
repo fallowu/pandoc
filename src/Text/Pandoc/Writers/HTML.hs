@@ -106,16 +106,16 @@ writeHtmlString opts d = do
   (body, context) <- evalStateT (pandocToHtml opts d) defaultWriterState
   return $ case writerTemplate opts of
                 Nothing  -> renderHtml body
-                Just tlp -> renderTemplate' tpl $
+                Just tpl -> renderTemplate' tpl $
                              defField "body" (renderHtml body) context
 
 -- | Convert Pandoc document to Html structure.
 writeHtml :: PandocMonad m => WriterOptions -> Pandoc -> m Html
 writeHtml opts d = do
   (body, context) <- evalStateT (pandocToHtml opts d) defaultWriterState
-  return $ case writeTemplate opts of
-                Nothing  -> renderHtml body
-                Just tlp -> renderTemplate' tpl $
+  return $ case writerTemplate opts of
+                Nothing  -> body
+                Just tpl -> renderTemplate' tpl $
                              defField "body" (renderHtml body) context
 
 -- result is (title, authors, date, toc, body, new variables)
